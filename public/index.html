@@ -515,14 +515,15 @@ nav{position:fixed;top:0;left:0;right:0;z-index:500;padding:0 60px;height:72px;d
 .hill2{width:700px;height:250px;background:linear-gradient(180deg,#A5D65A,#8CC63F);bottom:-40px;right:-50px;}
 .hill3{width:500px;height:180px;background:linear-gradient(180deg,#C3E88D,#A5D65A);bottom:-20px;left:30%;}
 .float-obj{position:absolute;pointer-events:none;will-change:transform;z-index:5;}
-.obj-coffee{font-size:120px;top:15%;right:12%;animation:floatY 5s ease-in-out infinite;filter:drop-shadow(0 20px 30px rgba(0,0,0,.15));}
+.obj-coffee{font-size:120px;top:15%;right:12%;animation:floatY 5s ease-in-out infinite;filter:drop-shadow(0 20px 30px rgba(0,0,0,.15));will-change:transform;}
 .obj-box{font-size:100px;top:20%;left:8%;animation:floatY 7s ease-in-out infinite 1s;filter:drop-shadow(0 20px 30px rgba(0,0,0,.12));}
 .obj-star{font-size:60px;top:55%;right:6%;animation:spin-float 8s ease-in-out infinite;color:var(--gold);}
 .obj-arrow{font-size:80px;bottom:30%;left:6%;animation:floatY 6s ease-in-out infinite 2s;color:var(--orange);}
-.obj-diamond{width:60px;height:60px;background:var(--rose);top:40%;right:4%;transform:rotate(45deg);animation:floatY 4s ease-in-out infinite .5s;border-radius:6px;box-shadow:0 12px 32px rgba(232,79,107,.3);}
+.obj-diamond{width:60px;height:60px;background:var(--rose);top:40%;right:4%;border-radius:6px;box-shadow:0 12px 32px rgba(232,79,107,.3);animation:floatY-diamond 4s ease-in-out infinite .5s;}
 .obj-circle{width:80px;height:80px;border-radius:50%;background:var(--gold);bottom:25%;left:3%;animation:floatY 9s ease-in-out infinite 3s;box-shadow:0 12px 32px rgba(242,183,5,.35);}
 .obj-pill{width:120px;height:44px;border-radius:100px;background:var(--teal);bottom:8%;left:38%;animation:floatY 6s ease-in-out infinite 1.5s;box-shadow:0 10px 28px rgba(0,168,150,.3);}
 @keyframes floatY{0%,100%{transform:translateY(0px);}50%{transform:translateY(-20px);}}
+@keyframes floatY-diamond{0%,100%{transform:translateY(0px) rotate(45deg);}50%{transform:translateY(-20px) rotate(45deg);}}
 @keyframes spin-float{0%,100%{transform:translateY(0) rotate(0deg);}50%{transform:translateY(-15px) rotate(180deg);}}
 /* ── HERO INNER ── */
 .hero-inner{position:relative;z-index:20;text-align:center;padding:0 40px;max-width:1000px;}
@@ -2666,19 +2667,27 @@ for(var ti=0;ti<6;ti++){
   document.body.appendChild(td);
   trails.push({el:td,x:0,y:0});
 }
-var mouseX=0,mouseY=0;
-document.addEventListener('mousemove',function(e){mouseX=e.clientX;mouseY=e.clientY;});
-(function animTrail(){
-  trails.forEach(function(t,i){
-    var prev=i===0?{x:mouseX,y:mouseY}:trails[i-1];
-    t.x+=(prev.x-t.x)*0.35;
-    t.y+=(prev.y-t.y)*0.35;
-  });
-  trails.forEach(function(t){
-    t.el.style.transform='translate(calc(-50% + '+t.x+'px),calc(-50% + '+t.y+'px))';
-  });
-  requestAnimationFrame(animTrail);
-})();
+var mouseX=0,mouseY=0,trailActive=false,trailRaf=null;
+document.addEventListener('mousemove',function(e){
+  mouseX=e.clientX;mouseY=e.clientY;
+  if(!trailActive){
+    trailActive=true;
+    (function animTrail(){
+      var allSettled=true;
+      trails.forEach(function(t,i){
+        var prev=i===0?{x:mouseX,y:mouseY}:trails[i-1];
+        var dx=prev.x-t.x, dy=prev.y-t.y;
+        t.x+=dx*0.35; t.y+=dy*0.35;
+        if(Math.abs(dx)>0.5||Math.abs(dy)>0.5) allSettled=false;
+      });
+      trails.forEach(function(t){
+        t.el.style.transform='translate(calc(-50% + '+t.x+'px),calc(-50% + '+t.y+'px))';
+      });
+      if(allSettled){trailActive=false;}
+      else{requestAnimationFrame(animTrail);}
+    })();
+  }
+});
 }
 document.querySelectorAll('a,button,.tb-pill,.sticker,.nav-cta,.pc-cta').forEach(function(el){
   el.addEventListener('mouseenter',function(){cur.classList.add('big');});
@@ -2815,19 +2824,30 @@ window.addEventListener('scroll',function(){
 
 // ── HERO PARALLAX (desktop only — mobile skip for performance) ──
 if(window.matchMedia('(hover: hover) and (min-width: 768px)').matches){
-window.addEventListener('scroll',function(){
-  var sy=window.scrollY;if(sy>window.innerHeight)return;
-  document.querySelectorAll('.float-obj').forEach(function(o,i){
-    var speed=(i%2===0?-0.15:0.12)*(i+1)*0.4;
-    o.style.transform='translateY('+(sy*speed)+'px)';
-  });
-  document.querySelectorAll('.hill').forEach(function(h,i){
-    h.style.transform='translateY('+(sy*(0.08*(i+1)))+'px)';
-  });
-  document.querySelectorAll('.cloud').forEach(function(c,i){
-    c.style.transform='translateY('+(sy*0.05*(i+1))+'px)';
-  });
-},{passive:true});
+// FIX: pakai marginTop bukan transform, biar ga berantem sama CSS animation floatY/drift
+(function(){
+  var lastSy=-1,rafPx=false;
+  function applyParallax(){
+    var sy=window.scrollY;
+    if(sy===lastSy){rafPx=false;return;}
+    lastSy=sy;
+    if(sy>window.innerHeight){rafPx=false;return;}
+    document.querySelectorAll('.float-obj').forEach(function(o,i){
+      var speed=(i%2===0?-0.12:0.1)*(i+1)*0.35;
+      o.style.marginTop=(sy*speed)+'px';
+    });
+    document.querySelectorAll('.hill').forEach(function(h,i){
+      h.style.marginTop=(sy*(0.06*(i+1)))+'px';
+    });
+    document.querySelectorAll('.cloud').forEach(function(c,i){
+      c.style.marginTop=(sy*0.04*(i+1))+'px';
+    });
+    rafPx=false;
+  }
+  window.addEventListener('scroll',function(){
+    if(!rafPx){rafPx=true;requestAnimationFrame(applyParallax);}
+  },{passive:true});
+})();
 }
 
 // ── COUNTER ANIMATION ──
