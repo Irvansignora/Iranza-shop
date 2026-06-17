@@ -390,8 +390,7 @@ body{background:var(--cream);color:var(--ink);font-family:'Space Grotesk',sans-s
 ::-webkit-scrollbar-thumb{background:var(--orange);border-radius:2px;}
 
 /* CURSOR */
-.cursor{position:fixed;width:14px;height:14px;border-radius:50%;background:var(--orange);pointer-events:none;z-index:9999;top:0;left:0;transform:translate(-50%,-50%);transition:width .2s,height .2s,background .2s;mix-blend-mode:multiply;will-change:transform;}
-.cursor.big{width:50px;height:50px;background:var(--gold);}
+.cursor{position:fixed;width:14px;height:14px;border-radius:50%;background:var(--orange);opacity:.75;pointer-events:none;z-index:9999;top:0;left:0;transform:translate(-50%,-50%);transition:width .2s,height .2s,background .2s,opacity .2s;will-change:transform;}
 .cursor.big{width:50px;height:50px;background:var(--gold);}
 
 /* PROGRESS BAR */
@@ -403,7 +402,7 @@ body{background:var(--cream);color:var(--ink);font-family:'Space Grotesk',sans-s
 #back-top:hover{background:var(--orange);border-color:var(--orange);transform:translate(-2px,-2px);}
 
 /* ── NAV ── */
-nav{position:fixed;top:0;left:0;right:0;z-index:500;padding:0 60px;height:72px;display:flex;align-items:center;justify-content:space-between;gap:40px;mix-blend-mode:multiply;transition:background .3s,box-shadow .3s,border .3s,backdrop-filter .3s;}
+nav{position:fixed;top:0;left:0;right:0;z-index:500;padding:0 60px;height:72px;display:flex;align-items:center;justify-content:space-between;gap:40px;transition:background .3s,box-shadow .3s,border .3s,backdrop-filter .3s;}
 /* announcement bar removed */
 .nav-logo{display:flex;align-items:center;gap:10px;text-decoration:none;color:var(--ink);}
 .nav-logo-icon-box{width:34px;height:34px;border-radius:8px;background:var(--orange);color:#fff;font-family:'Anton',sans-serif;font-size:13px;letter-spacing:1px;display:flex;align-items:center;justify-content:center;flex-shrink:0;box-shadow:2px 2px 0 var(--ink);transition:transform .2s,box-shadow .2s;}
@@ -432,8 +431,8 @@ nav{position:fixed;top:0;left:0;right:0;z-index:500;padding:0 60px;height:72px;d
 @media(max-width:600px){nav{padding:0 24px;}}
 
 /* ── PAGES ── */
-.page{position:absolute;top:0;left:0;right:0;visibility:hidden;opacity:0;pointer-events:none;z-index:0;}
-.page.active{position:relative;visibility:visible;opacity:1;pointer-events:auto;z-index:1;}
+.page{position:absolute;top:0;left:0;right:0;height:0;overflow:hidden;visibility:hidden;opacity:0;pointer-events:none;z-index:0;}
+.page.active{position:relative;height:auto;overflow:visible;visibility:visible;opacity:1;pointer-events:auto;z-index:1;}
 .page.page-enter{animation:pageEnter .45s cubic-bezier(.22,1,.36,1) forwards;}
 @keyframes pageEnter{
   from{opacity:0;transform:translateY(22px);}
@@ -480,7 +479,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:500;padding:0 60px;height:72px;d
 .marquee-strip.gold .mq-item{color:var(--ink);}
 .marquee-strip.teal .mq-item,.marquee-strip.purple .mq-item{color:#fff;}
 .mq-sep{font-size:14px;opacity:.5;}
-@keyframes mq-left{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+@keyframes mq-left{from{transform:translate3d(0,0,0)}to{transform:translate3d(-50%,0,0)}}
 
 /* ── STATS STRIP ── */
 #stats-strip{padding:0 60px;border-top:3px solid var(--ink);border-bottom:3px solid var(--ink);display:grid;grid-template-columns:repeat(4,1fr);background:var(--ink);}
@@ -499,7 +498,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:500;padding:0 60px;height:72px;d
 
 /* ── HERO ── */
 #hero{min-height:100vh;background:linear-gradient(180deg,#C8E6F5 0%,#E8F4FB 35%,#F5F0E4 100%);position:relative;overflow:hidden;display:flex;align-items:center;justify-content:center;padding-top:72px;}
-.cloud{position:absolute;pointer-events:none;background:#fff;border-radius:50px;opacity:.75;filter:blur(1px);}
+.cloud{position:absolute;pointer-events:none;background:#fff;border-radius:50px;opacity:.75;}
 .cloud::before,.cloud::after{content:'';position:absolute;background:#fff;border-radius:50%;}
 .c1{width:180px;height:50px;top:12%;left:5%;animation:drift 28s ease-in-out infinite;will-change:transform;}
 .c1::before{width:80px;height:80px;top:-40px;left:20px;}
@@ -510,30 +509,31 @@ nav{position:fixed;top:0;left:0;right:0;z-index:500;padding:0 60px;height:72px;d
 .c3{width:140px;height:40px;top:20%;left:35%;animation:drift 30s ease-in-out infinite 4s;will-change:transform;}
 .c3::before{width:60px;height:60px;top:-30px;left:15px;}
 .c3::after{width:50px;height:50px;top:-25px;left:60px;}
-@keyframes drift{0%,100%{transform:translate(0,0)}50%{transform:translate(20px,-8px)}}
+@keyframes drift{0%,100%{transform:translate3d(0,0,0)}50%{transform:translate3d(20px,-8px,0)}}
 .hill{position:absolute;bottom:0;border-radius:50%;pointer-events:none;}
 .hill1{width:900px;height:300px;background:linear-gradient(180deg,#8CC63F,#6B9B2A);bottom:-60px;left:-100px;}
 .hill2{width:700px;height:250px;background:linear-gradient(180deg,#A5D65A,#8CC63F);bottom:-40px;right:-50px;}
 .hill3{width:500px;height:180px;background:linear-gradient(180deg,#C3E88D,#A5D65A);bottom:-20px;left:30%;}
 .fo-wrap{position:absolute;pointer-events:none;z-index:5;will-change:transform;}
-.float-obj{pointer-events:none;will-change:transform;}
-.obj-coffee-w{top:15%;right:12%;}
-.obj-box-w{top:20%;left:8%;}
+.float-obj{pointer-events:none;will-change:transform;backface-visibility:hidden;transform:translateZ(0);}
+.obj-coffee-w{top:15%;right:12%;filter:drop-shadow(0 12px 16px rgba(0,0,0,.15));}
+.obj-box-w{top:20%;left:8%;filter:drop-shadow(0 12px 16px rgba(0,0,0,.12));}
 .obj-star-w{top:55%;right:6%;}
 .obj-arrow-w{bottom:30%;left:6%;}
 .obj-diamond-w{top:40%;right:4%;}
 .obj-circle-w{bottom:25%;left:3%;}
 .obj-pill-w{bottom:8%;left:38%;}
-.obj-coffee{font-size:120px;animation:floatY 8s ease-in-out infinite;filter:drop-shadow(0 20px 30px rgba(0,0,0,.15));}
-.obj-box{font-size:100px;animation:floatY 10s ease-in-out infinite 1s;filter:drop-shadow(0 20px 30px rgba(0,0,0,.12));}
-.obj-star{font-size:60px;animation:spin-float 12s ease-in-out infinite;color:var(--gold);}
-.obj-arrow{font-size:80px;animation:floatY 9s ease-in-out infinite 2s;color:var(--orange);}
+.obj-coffee{width:64px;height:64px;animation:floatY 8s ease-in-out infinite;}
+.obj-box{width:56px;height:56px;animation:floatY 10s ease-in-out infinite 1s;}
+.obj-star{width:40px;height:40px;animation:spin-float 12s ease-in-out infinite;}
+.obj-arrow{width:48px;height:48px;animation:floatY 9s ease-in-out infinite 2s;}
+.float-obj svg{width:100%;height:100%;display:block;}
 .obj-diamond{width:60px;height:60px;background:var(--rose);border-radius:6px;box-shadow:0 12px 32px rgba(232,79,107,.3);animation:floatY-diamond 7s ease-in-out infinite .5s;}
 .obj-circle{width:80px;height:80px;border-radius:50%;background:var(--gold);animation:floatY 11s ease-in-out infinite 3s;box-shadow:0 12px 32px rgba(242,183,5,.35);}
 .obj-pill{width:120px;height:44px;border-radius:100px;background:var(--teal);animation:floatY 9s ease-in-out infinite 1.5s;box-shadow:0 10px 28px rgba(0,168,150,.3);}
-@keyframes floatY{0%,100%{transform:translateY(0px);}50%{transform:translateY(-12px);}}
-@keyframes floatY-diamond{0%,100%{transform:translateY(0px) rotate(45deg);}50%{transform:translateY(-20px) rotate(45deg);}}
-@keyframes spin-float{0%,100%{transform:translateY(0) rotate(0deg);}50%{transform:translateY(-10px) rotate(180deg);}}
+@keyframes floatY{0%,100%{transform:translate3d(0,0,0);}50%{transform:translate3d(0,-12px,0);}}
+@keyframes floatY-diamond{0%,100%{transform:translate3d(0,0,0) rotate(45deg);}50%{transform:translate3d(0,-20px,0) rotate(45deg);}}
+@keyframes spin-float{0%,100%{transform:translate3d(0,0,0) rotate(0deg);}50%{transform:translate3d(0,-10px,0) rotate(180deg);}}
 /* ── HERO INNER ── */
 .hero-inner{position:relative;z-index:20;text-align:center;padding:0 40px;max-width:1000px;}
 
@@ -1180,9 +1180,11 @@ body{overflow-x:hidden;}
 .tb-iframe-wrap{width:100%;height:280px;overflow:hidden;background:#FFF8F0;position:relative;}
 .tb-iframe-wrap.teal-bg{background:#F0FDFB;}
 .tb-iframe-wrap.purple-bg{background:#F5F0FF;}
-.tb-obj{position:absolute;font-size:56px;filter:drop-shadow(0 12px 20px rgba(0,0,0,.12));animation:floatY 8s ease-in-out infinite;pointer-events:none;will-change:transform;}
+.tb-obj{position:absolute;font-size:56px;animation:floatY 8s ease-in-out infinite;pointer-events:none;will-change:transform;width:56px;height:56px;backface-visibility:hidden;}
+.tb-obj svg{filter:drop-shadow(0 12px 20px rgba(0,0,0,.12));}
+.tb-obj svg{width:100%;height:100%;display:block;}
 .tb-obj-1{bottom:12%;right:4%;animation-delay:.5s;}
-.tb-obj-2{top:12%;right:2%;font-size:40px;animation-delay:1.5s;}
+.tb-obj-2{top:12%;right:2%;width:40px;height:40px;animation-delay:1.5s;}
 .tb-content{padding:80px 68px;display:flex;flex-direction:column;justify-content:center;}
 .tb-tag{display:inline-flex;align-items:center;gap:8px;font-family:'Space Mono',monospace;font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;padding:6px 16px;border-radius:100px;border:2px solid;margin-bottom:28px;width:fit-content;}
 .tb-tag.orange{border-color:var(--orange);color:var(--orange);background:rgba(255,91,30,.06);}
@@ -1470,10 +1472,31 @@ body{overflow-x:hidden;}
   <section id="hero">
     <div class="cloud c1"></div><div class="cloud c2"></div><div class="cloud c3"></div>
     <div class="hill hill1"></div><div class="hill hill2"></div><div class="hill hill3"></div>
-    <div class="fo-wrap obj-coffee-w"><div class="float-obj obj-coffee">🛍️</div></div>
-    <div class="fo-wrap obj-box-w"><div class="float-obj obj-box">💻</div></div>
-    <div class="fo-wrap obj-star-w"><div class="float-obj obj-star">✦</div></div>
-    <div class="fo-wrap obj-arrow-w"><div class="float-obj obj-arrow">↗</div></div>
+    <div class="fo-wrap obj-coffee-w"><div class="float-obj obj-coffee">
+      <svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M16 22h32l-3 32a4 4 0 0 1-4 3.6H23a4 4 0 0 1-4-3.6L16 22z" fill="var(--purple)" stroke="var(--ink)" stroke-width="3" stroke-linejoin="round"/>
+        <path d="M24 22v-4a8 8 0 0 1 16 0v4" stroke="var(--gold)" stroke-width="3.5" stroke-linecap="round"/>
+        <rect x="22" y="30" width="14" height="14" rx="2" fill="var(--teal)"/>
+      </svg>
+    </div></div>
+    <div class="fo-wrap obj-box-w"><div class="float-obj obj-box">
+      <svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <rect x="10" y="16" width="44" height="28" rx="3" fill="#E8E8E8" stroke="var(--ink)" stroke-width="3"/>
+        <rect x="14" y="20" width="36" height="20" fill="#2A2A2A"/>
+        <path d="M6 48h52l-4 6a4 4 0 0 1-3.5 2H13.5a4 4 0 0 1-3.5-2l-4-6z" fill="#C9C9C9" stroke="var(--ink)" stroke-width="3" stroke-linejoin="round"/>
+      </svg>
+    </div></div>
+    <div class="fo-wrap obj-star-w"><div class="float-obj obj-star">
+      <svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M32 4l6 20 20 6-20 6-6 20-6-20-20-6 20-6z" fill="var(--gold)" stroke="var(--ink)" stroke-width="2.5" stroke-linejoin="round"/>
+      </svg>
+    </div></div>
+    <div class="fo-wrap obj-arrow-w"><div class="float-obj obj-arrow">
+      <svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M14 50L50 14" stroke="var(--orange)" stroke-width="6" stroke-linecap="round"/>
+        <path d="M26 14h24v24" stroke="var(--orange)" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </div></div>
     <div class="fo-wrap obj-diamond-w"><div class="float-obj obj-diamond"></div></div>
     <div class="fo-wrap obj-circle-w"><div class="float-obj obj-circle"></div></div>
     <div class="fo-wrap obj-pill-w"><div class="float-obj obj-pill"></div></div>
@@ -1617,7 +1640,7 @@ body{overflow-x:hidden;}
     </div>
     <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:0;border:3px solid var(--ink);" class="prod-cards-home">
       <div class="rv d1 pch pch-orange" onclick="showPage('produk')">
-        <div style="font-size:56px;margin-bottom:20px;">🛍️</div>
+        <div style="width:56px;height:56px;margin-bottom:20px;"><svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M16 22h32l-3 32a4 4 0 0 1-4 3.6H23a4 4 0 0 1-4-3.6L16 22z" fill="var(--purple)" stroke="var(--ink)" stroke-width="3" stroke-linejoin="round"/><path d="M24 22v-4a8 8 0 0 1 16 0v4" stroke="var(--gold)" stroke-width="3.5" stroke-linecap="round"/></svg></div>
         <div style="font-family:'Space Mono',monospace;font-size:10px;color:var(--orange);letter-spacing:2px;text-transform:uppercase;margin-bottom:10px;">Template UMKM</div>
         <h3 style="font-family:'Anton',sans-serif;font-size:24px;text-transform:uppercase;margin-bottom:10px;letter-spacing:.5px;line-height:1.1;">Website UMKM All-in-One</h3>
         <p style="font-size:12px;color:rgba(26,20,8,.5);line-height:1.7;margin-bottom:16px;">F&B, fashion, beauty, toko produk fisik — semua bisa. <strong style="color:var(--orange);">+ FREE Landing Page!</strong></p>
@@ -1626,7 +1649,7 @@ body{overflow-x:hidden;}
         <span class="pch-link pch-link-orange">Lihat Detail →</span>
       </div>
       <div class="rv d2 pch pch-teal" onclick="showPage('produk')">
-        <div style="font-size:56px;margin-bottom:20px;">📦</div>
+        <div style="width:56px;height:56px;margin-bottom:20px;"><svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M32 6l24 12v28L32 58 8 46V18L32 6z" fill="var(--sand)" stroke="var(--ink)" stroke-width="3" stroke-linejoin="round"/><path d="M8 18l24 12 24-12M32 30v28" stroke="var(--ink)" stroke-width="3" stroke-linejoin="round"/></svg></div>
         <div style="font-family:'Space Mono',monospace;font-size:10px;color:var(--teal);letter-spacing:2px;text-transform:uppercase;margin-bottom:10px;">Template Distributor</div>
         <h3 style="font-family:'Anton',sans-serif;font-size:24px;text-transform:uppercase;margin-bottom:10px;letter-spacing:.5px;line-height:1.1;">Sistem Distribusi 3-in-1</h3>
         <p style="font-size:12px;color:rgba(26,20,8,.5);line-height:1.7;margin-bottom:16px;">Panel Admin, Salesman mobile, dan portal Supplier — terintegrasi penuh.</p>
@@ -1636,7 +1659,7 @@ body{overflow-x:hidden;}
       </div>
       <div class="rv d3 pch pch-dark" onclick="showPage('produk')" style="background:var(--ink);">
         <div style="position:absolute;top:16px;right:16px;background:var(--rose);color:#fff;font-size:10px;font-weight:800;padding:4px 12px;border-radius:100px;letter-spacing:1px;">OFFLINE ✅</div>
-        <div style="font-size:56px;margin-bottom:20px;">🖥️</div>
+        <div style="width:56px;height:56px;margin-bottom:20px;"><svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="8" y="12" width="48" height="32" rx="3" fill="#E8E8E8" stroke="var(--ink)" stroke-width="3"/><rect x="12" y="16" width="40" height="24" fill="var(--teal)"/><path d="M26 44h12v6H26z" fill="#C9C9C9" stroke="var(--ink)" stroke-width="3"/><path d="M18 50h28" stroke="var(--ink)" stroke-width="3" stroke-linecap="round"/></svg></div>
         <div style="font-family:'Space Mono',monospace;font-size:10px;color:var(--purple);letter-spacing:2px;text-transform:uppercase;margin-bottom:10px;">Kasir POS</div>
         <h3 style="font-family:'Anton',sans-serif;font-size:24px;text-transform:uppercase;margin-bottom:10px;letter-spacing:.5px;color:#fff;line-height:1.1;">Kasir Offline POS</h3>
         <p style="font-size:12px;color:rgba(255,255,255,.45);line-height:1.7;margin-bottom:16px;">Sistem kasir offline lengkap. Multi-user, manajemen produk, riwayat transaksi.</p>
@@ -1795,8 +1818,8 @@ body{overflow-x:hidden;}
     <div class="template-block">
       <div class="tb-visual coffee-vis">
         <div class="tb-num">01</div>
-        <span class="tb-obj tb-obj-1">🛍️</span>
-        <span class="tb-obj tb-obj-2">🚀</span>
+        <span class="tb-obj tb-obj-1"><svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M16 22h32l-3 32a4 4 0 0 1-4 3.6H23a4 4 0 0 1-4-3.6L16 22z" fill="var(--purple)" stroke="var(--ink)" stroke-width="3" stroke-linejoin="round"/><path d="M24 22v-4a8 8 0 0 1 16 0v4" stroke="var(--gold)" stroke-width="3.5" stroke-linecap="round"/></svg></span>
+        <span class="tb-obj tb-obj-2"><svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M32 6c8 6 12 16 10 30-4 2-8 4-10 4s-6-2-10-4c-2-14 2-24 10-30z" fill="var(--orange)" stroke="var(--ink)" stroke-width="3" stroke-linejoin="round"/><circle cx="32" cy="24" r="5" fill="#fff"/><path d="M24 38l-6 12 12-4M40 38l6 12-12-4" stroke="var(--ink)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" fill="var(--gold)"/></svg></span>
         <div class="tb-screen">
           <div class="tb-screen-bar">
             <div class="tbd tbd-r"></div><div class="tbd tbd-y"></div><div class="tbd tbd-g"></div>
@@ -1893,8 +1916,8 @@ body{overflow-x:hidden;}
       </div>
       <div class="tb-visual dist-vis" style="order:2">
         <div class="tb-num">02</div>
-        <span class="tb-obj tb-obj-1">📦</span>
-        <span class="tb-obj tb-obj-2">🚚</span>
+        <span class="tb-obj tb-obj-1"><svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M32 6l24 12v28L32 58 8 46V18L32 6z" fill="var(--sand)" stroke="var(--ink)" stroke-width="3" stroke-linejoin="round"/><path d="M8 18l24 12 24-12M32 30v28" stroke="var(--ink)" stroke-width="3" stroke-linejoin="round"/></svg></span>
+        <span class="tb-obj tb-obj-2"><svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="6" y="22" width="30" height="18" rx="2" fill="var(--teal)" stroke="var(--ink)" stroke-width="3"/><path d="M36 28h12l10 8v6H36z" fill="var(--gold)" stroke="var(--ink)" stroke-width="3" stroke-linejoin="round"/><circle cx="18" cy="44" r="5" fill="#fff" stroke="var(--ink)" stroke-width="3"/><circle cx="46" cy="44" r="5" fill="#fff" stroke="var(--ink)" stroke-width="3"/></svg></span>
         <div class="tb-screen">
           <div class="tb-screen-bar">
             <div class="tbd tbd-r"></div><div class="tbd tbd-y"></div><div class="tbd tbd-g"></div>
@@ -1934,8 +1957,8 @@ body{overflow-x:hidden;}
     <div class="template-block">
       <div class="tb-visual kasir-vis">
         <div class="tb-num">03</div>
-        <span class="tb-obj tb-obj-1">🖥️</span>
-        <span class="tb-obj tb-obj-2">🧾</span>
+        <span class="tb-obj tb-obj-1"><svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="8" y="12" width="48" height="32" rx="3" fill="#E8E8E8" stroke="var(--ink)" stroke-width="3"/><rect x="12" y="16" width="40" height="24" fill="var(--teal)"/><path d="M26 44h12v6H26z" fill="#C9C9C9" stroke="var(--ink)" stroke-width="3"/><path d="M18 50h28" stroke="var(--ink)" stroke-width="3" stroke-linecap="round"/></svg></span>
+        <span class="tb-obj tb-obj-2"><svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M16 6h32v52l-6-4-6 4-6-4-6 4-8-4V6z" fill="#fff" stroke="var(--ink)" stroke-width="3" stroke-linejoin="round"/><path d="M22 18h20M22 26h20M22 34h12" stroke="var(--orange)" stroke-width="3" stroke-linecap="round"/></svg></span>
         <div class="tb-screen">
           <div class="tb-screen-bar">
             <div class="tbd tbd-r"></div><div class="tbd tbd-y"></div><div class="tbd tbd-g"></div>
