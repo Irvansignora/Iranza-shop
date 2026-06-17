@@ -514,14 +514,22 @@ nav{position:fixed;top:0;left:0;right:0;z-index:500;padding:0 60px;height:72px;d
 .hill1{width:900px;height:300px;background:linear-gradient(180deg,#8CC63F,#6B9B2A);bottom:-60px;left:-100px;}
 .hill2{width:700px;height:250px;background:linear-gradient(180deg,#A5D65A,#8CC63F);bottom:-40px;right:-50px;}
 .hill3{width:500px;height:180px;background:linear-gradient(180deg,#C3E88D,#A5D65A);bottom:-20px;left:30%;}
-.float-obj{position:absolute;pointer-events:none;will-change:transform;z-index:5;}
-.obj-coffee{font-size:120px;top:15%;right:12%;animation:floatY 5s ease-in-out infinite;filter:drop-shadow(0 20px 30px rgba(0,0,0,.15));will-change:transform;}
-.obj-box{font-size:100px;top:20%;left:8%;animation:floatY 7s ease-in-out infinite 1s;filter:drop-shadow(0 20px 30px rgba(0,0,0,.12));}
-.obj-star{font-size:60px;top:55%;right:6%;animation:spin-float 8s ease-in-out infinite;color:var(--gold);}
-.obj-arrow{font-size:80px;bottom:30%;left:6%;animation:floatY 6s ease-in-out infinite 2s;color:var(--orange);}
-.obj-diamond{width:60px;height:60px;background:var(--rose);top:40%;right:4%;border-radius:6px;box-shadow:0 12px 32px rgba(232,79,107,.3);animation:floatY-diamond 4s ease-in-out infinite .5s;}
-.obj-circle{width:80px;height:80px;border-radius:50%;background:var(--gold);bottom:25%;left:3%;animation:floatY 9s ease-in-out infinite 3s;box-shadow:0 12px 32px rgba(242,183,5,.35);}
-.obj-pill{width:120px;height:44px;border-radius:100px;background:var(--teal);bottom:8%;left:38%;animation:floatY 6s ease-in-out infinite 1.5s;box-shadow:0 10px 28px rgba(0,168,150,.3);}
+.fo-wrap{position:absolute;pointer-events:none;z-index:5;will-change:transform;}
+.float-obj{pointer-events:none;}
+.obj-coffee-w{top:15%;right:12%;}
+.obj-box-w{top:20%;left:8%;}
+.obj-star-w{top:55%;right:6%;}
+.obj-arrow-w{bottom:30%;left:6%;}
+.obj-diamond-w{top:40%;right:4%;}
+.obj-circle-w{bottom:25%;left:3%;}
+.obj-pill-w{bottom:8%;left:38%;}
+.obj-coffee{font-size:120px;animation:floatY 5s ease-in-out infinite;filter:drop-shadow(0 20px 30px rgba(0,0,0,.15));}
+.obj-box{font-size:100px;animation:floatY 7s ease-in-out infinite 1s;filter:drop-shadow(0 20px 30px rgba(0,0,0,.12));}
+.obj-star{font-size:60px;animation:spin-float 8s ease-in-out infinite;color:var(--gold);}
+.obj-arrow{font-size:80px;animation:floatY 6s ease-in-out infinite 2s;color:var(--orange);}
+.obj-diamond{width:60px;height:60px;background:var(--rose);border-radius:6px;box-shadow:0 12px 32px rgba(232,79,107,.3);animation:floatY-diamond 4s ease-in-out infinite .5s;}
+.obj-circle{width:80px;height:80px;border-radius:50%;background:var(--gold);animation:floatY 9s ease-in-out infinite 3s;box-shadow:0 12px 32px rgba(242,183,5,.35);}
+.obj-pill{width:120px;height:44px;border-radius:100px;background:var(--teal);animation:floatY 6s ease-in-out infinite 1.5s;box-shadow:0 10px 28px rgba(0,168,150,.3);}
 @keyframes floatY{0%,100%{transform:translateY(0px);}50%{transform:translateY(-20px);}}
 @keyframes floatY-diamond{0%,100%{transform:translateY(0px) rotate(45deg);}50%{transform:translateY(-20px) rotate(45deg);}}
 @keyframes spin-float{0%,100%{transform:translateY(0) rotate(0deg);}50%{transform:translateY(-15px) rotate(180deg);}}
@@ -1077,10 +1085,11 @@ body{overflow-x:hidden;}
 #testimonials, #pricing, #templates, #why { contain: layout style; }
 /* PERFORMANCE: Use GPU layer for animated elements */
 .marquee-strip .mq { will-change: transform; }
-.float-obj { will-change: transform; }
+.fo-wrap { will-change: transform; }
 /* PERFORMANCE: Disable expensive animations on mobile */
 @media(max-width:768px){
   .float-obj{animation:none !important;}
+  .fo-wrap{display:none !important;}
   .cloud{animation:none !important;}
   .sticker{animation:none !important;}
   .marquee-strip .mq{animation-duration:35s !important;}
@@ -1459,13 +1468,13 @@ body{overflow-x:hidden;}
   <section id="hero">
     <div class="cloud c1"></div><div class="cloud c2"></div><div class="cloud c3"></div>
     <div class="hill hill1"></div><div class="hill hill2"></div><div class="hill hill3"></div>
-    <div class="float-obj obj-coffee">🛍️</div>
-    <div class="float-obj obj-box">💻</div>
-    <div class="float-obj obj-star">✦</div>
-    <div class="float-obj obj-arrow">↗</div>
-    <div class="float-obj obj-diamond"></div>
-    <div class="float-obj obj-circle"></div>
-    <div class="float-obj obj-pill"></div>
+    <div class="fo-wrap obj-coffee-w"><div class="float-obj obj-coffee">🛍️</div></div>
+    <div class="fo-wrap obj-box-w"><div class="float-obj obj-box">💻</div></div>
+    <div class="fo-wrap obj-star-w"><div class="float-obj obj-star">✦</div></div>
+    <div class="fo-wrap obj-arrow-w"><div class="float-obj obj-arrow">↗</div></div>
+    <div class="fo-wrap obj-diamond-w"><div class="float-obj obj-diamond"></div></div>
+    <div class="fo-wrap obj-circle-w"><div class="float-obj obj-circle"></div></div>
+    <div class="fo-wrap obj-pill-w"><div class="float-obj obj-pill"></div></div>
     <div class="sticker sticker1" onclick="showPage('produk')">
       <div class="sticker-inner">SEMUA JENIS UMKM</div>
     </div>
@@ -2832,15 +2841,15 @@ if(window.matchMedia('(hover: hover) and (min-width: 768px)').matches){
     if(sy===lastSy){rafPx=false;return;}
     lastSy=sy;
     if(sy>window.innerHeight){rafPx=false;return;}
-    document.querySelectorAll('.float-obj').forEach(function(o,i){
+    document.querySelectorAll('.fo-wrap').forEach(function(o,i){
       var speed=(i%2===0?-0.12:0.1)*(i+1)*0.35;
-      o.style.marginTop=(sy*speed)+'px';
+      o.style.transform='translateY('+(sy*speed)+'px)';
     });
     document.querySelectorAll('.hill').forEach(function(h,i){
-      h.style.marginTop=(sy*(0.06*(i+1)))+'px';
+      h.style.transform='translateY('+(sy*(0.06*(i+1)))+'px)';
     });
     document.querySelectorAll('.cloud').forEach(function(c,i){
-      c.style.marginTop=(sy*0.04*(i+1))+'px';
+      c.style.transform='translateY('+(sy*0.04*(i+1))+'px)';
     });
     rafPx=false;
   }
